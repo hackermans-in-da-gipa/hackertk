@@ -1,17 +1,17 @@
 PImage img;
 int pixls=13;
-int[] pxs = new int[169];
+int[] pxs = new int[400];
 color average;
 int x,y,yinc;
 JSONArray values;
 
 void setup()
 {
-  size(710,710);
+  size(580,734);
   background(255);
   noStroke();
   img = loadImage("image720.jpg");
-  img.resize(710,710);
+  img.resize(580,734);
    values = new JSONArray();
   for(int i=0;i<pixls;i++)
   { 
@@ -19,14 +19,14 @@ void setup()
     {
       JSONObject clr = new JSONObject();
       color p = img.pixels[((height/pixls)*(j))*(width)+(width/pixls*(i))];
-      float r = hue(p);
-      float g = saturation(p);
-      float b = brightness(p);
-       clr.setFloat("r", r);
-       clr.setFloat("g", g);
-       clr.setFloat("b", b);
+      float h = hue(p);
+      float s = saturation(p);
+      float l = brightness(p);
+       clr.setInt("h", ceil(h/21.25));
+       clr.setFloat("s", s);
+       clr.setFloat("l", ceil(l/42.5));
        values.setJSONObject(i, clr);
-      pxs[i*13+j] = int(r);
+      pxs[i*20+j] = int(h);
     }
   }
   
