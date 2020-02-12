@@ -3,6 +3,7 @@ int pixls=13;
 int[] pxs = new int[169];
 color average;
 int x,y,yinc;
+JSONArray values;
 
 void setup()
 {
@@ -11,17 +12,26 @@ void setup()
   noStroke();
   img = loadImage("image720.jpg");
   img.resize(710,710);
+   values = new JSONArray();
   for(int i=0;i<pixls;i++)
   { 
     for(int j=0;j<pixls;j++)
     {
-      float r = red(img.pixels[((height/pixls)*(j))*(width)+(width/pixls*(i))]);
-      float g = green(img.pixels[((height/pixls)*(j))*(width)+(width/pixls*(i))]);
-      float b = blue(img.pixels[((height/pixls)*(j))*(width)+(width/pixls*(i))]);
+      JSONObject clr = new JSONObject();
+      color p = img.pixels[((height/pixls)*(j))*(width)+(width/pixls*(i))];
+      float r = hue(p);
+      float g = saturation(p);
+      float b = brightness(p);
+       clr.setFloat("r", r);
+       clr.setFloat("g", g);
+       clr.setFloat("b", b);
+       values.setJSONObject(i, clr);
       pxs[i*13+j] = int(r);
     }
   }
-  printArray(pxs);
+  
+  saveJSONArray(values, "data/new.json");
+  
 }
 void draw()
 {
